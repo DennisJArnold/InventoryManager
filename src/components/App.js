@@ -11,11 +11,12 @@ class App extends React.Component {
         super(props);
         this.state = {
             items: [],
-            cart: [],
+            cart: {},
             orders: []
         }
         this.addItemToList = this.addItemToList.bind(this);
         this.handleOrderSubmit = this.handleOrderSubmit.bind(this);
+        this.addItemToCart = this.addItemToCart.bind(this);
     }
 
     componentDidMount() {
@@ -38,18 +39,24 @@ class App extends React.Component {
     }
 
     addItemToCart(item) {
-        // adds item to cart
+        let container = this.state.cart;
+        if (!container[item.id]) {
+            container[item.id] = item;
+        } else {
+            container[item.id].quantity+= item.quantity;
+        }
+        this.setState({cart: container});
     }
 
     addItemToList(item) {
-        axios.post('/items', item)
+        axios.post('http://localhost:3001/items', item)
         .then((res) => {
             console.log(res.data);
         }, (err) => {
             console.log(err);
         })
         .then(() => {
-            getAllItemData()
+            this.getAllItemData()
         })
     }
 
@@ -64,7 +71,7 @@ class App extends React.Component {
               <OrderDisplay cart={this.state.cart} />
               <OrderInfo cart={this.state.cart} />
               <SubmitOrder handleOrderSubmit={this.handleOrderSubmit} />
-              <ItemTable items={this.state.items} />
+              <ItemTable items={this.state.items} addItemToCart={this.addItemToCart} />
               <AddNewItem addItemToList={this.addItemToList} />
             </div>
         )

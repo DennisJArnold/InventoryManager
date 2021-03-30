@@ -1,4 +1,5 @@
 import React from 'react';
+import ItemRow from './ItemRow.js';
 
 class ItemTable extends React.Component {
     constructor(props) {
@@ -24,16 +25,7 @@ class ItemTable extends React.Component {
               </div>
               {this.props.items.map((item) => {
                   return(
-                    <div className='table-row' key={item.id}>
-                        <div className='item-name cell'>{item.item_name}</div>
-                        <div className='on-hand-unit cell'>onHandUnit</div>
-                        <div className='on-hand-case cell'>onHandCase</div>
-                        <div className='par cell'>{item.par}</div>
-                        <div className='suggested cell'>{item.par}</div>
-                        <div className='price cell'>{item.cost}</div>
-                        <div className='size cell'>{item.size}</div>
-                        <div className='total cell'>{item.cost}</div>
-                    </div>
+                    <ItemRow item={item} key={item.id} addItemToCart={this.props.addItemToCart}/>
                   )
               })}
             </div>
