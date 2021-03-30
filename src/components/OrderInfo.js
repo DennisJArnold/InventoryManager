@@ -7,7 +7,7 @@ const OrderInfo = ({cart}) => {
     // for each item in cart, measure quantity and add appropriate price and count to variables
 
   return (
-      <div>
+      <div className='order-info'>
           <span>Total Order Cost: </span>
           <span>{total}</span>
           <br />

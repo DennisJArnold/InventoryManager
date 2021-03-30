@@ -4,10 +4,8 @@ class ItemTable extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-
         }
     }
-
     render() {
         return (
             <div className='item-table'>
@@ -24,7 +22,20 @@ class ItemTable extends React.Component {
                   <div className='table-header'>Total Cost</div>
                   <div className='table-header'>Add to Order</div>
               </div>
-              {/* For Each item, create table row */}
+              {this.props.items.map((item) => {
+                  return(
+                    <div className='table-row' key={item.id}>
+                        <div className='item-name cell'>{item.item_name}</div>
+                        <div className='on-hand-unit cell'>onHandUnit</div>
+                        <div className='on-hand-case cell'>onHandCase</div>
+                        <div className='par cell'>{item.par}</div>
+                        <div className='suggested cell'>{item.par}</div>
+                        <div className='price cell'>{item.cost}</div>
+                        <div className='size cell'>{item.size}</div>
+                        <div className='total cell'>{item.cost}</div>
+                    </div>
+                  )
+              })}
             </div>
         )
     }

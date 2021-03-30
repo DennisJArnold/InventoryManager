@@ -17,7 +17,7 @@ const getAllItems = (cb) => {
         if(err) {
             cb(err);
         } else {
-            cb(null, results);
+            cb(null, results.rows);
         }
     })
 }

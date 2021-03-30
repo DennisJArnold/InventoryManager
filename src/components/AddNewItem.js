@@ -14,7 +14,7 @@ class AddNewItem extends React.Component {
 
     render() {
         return (
-            <form>
+            <form className='add-item'>
                 <label>
                   Name: 
                   <input type='text' name='itemName' value={this.state.itemName} />

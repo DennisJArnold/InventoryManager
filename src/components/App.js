@@ -4,6 +4,7 @@ import ItemTable from './ItemTable.js';
 import AddNewItem from './AddNewItem';
 import OrderDisplay from './OrderDisplay.js';
 import SubmitOrder from './SubmitOrder.js';
+import axios from 'axios';
 
 class App extends React.Component {
     constructor (props) {
@@ -17,8 +18,19 @@ class App extends React.Component {
         this.handleOrderSubmit = this.handleOrderSubmit.bind(this);
     }
 
+    componentDidMount() {
+        this.getAllItemData();
+    }
+
     getAllItemData() {
-        
+        axios.get('http://localhost:3001/items')
+        .then((res) => {
+            console.log(res.data);
+            this.setState({ items: res.data });
+        }, (err) => {
+            console.log(err);
+        })
+            
     }
 
     getOrdersData() {
@@ -30,9 +42,15 @@ class App extends React.Component {
     }
 
     addItemToList(item) {
-        let container = this.state.items;
-        container.push(item);
-        this.setState({items: container});
+        axios.post('/items', item)
+        .then((res) => {
+            console.log(res.data);
+        }, (err) => {
+            console.log(err);
+        })
+        .then(() => {
+            getAllItemData()
+        })
     }
 
     handleOrderSubmit() {
@@ -41,13 +59,13 @@ class App extends React.Component {
 
     render() {
         return (
-            <div>
-              <h1>Inventory Manager</h1>
-              <OrderDisplay props={this.state.cart} />
-              <OrderInfo props={this.state.cart} />
-              <SubmitOrder props={this.handleOrderSubmit} />
-              <ItemTable props={this.state.items} />
-              <AddNewItem props={this.addItemToList} />
+            <div className='container'>
+              <h1 className='header'>Inventory Manager</h1>
+              <OrderDisplay cart={this.state.cart} />
+              <OrderInfo cart={this.state.cart} />
+              <SubmitOrder handleOrderSubmit={this.handleOrderSubmit} />
+              <ItemTable items={this.state.items} />
+              <AddNewItem addItemToList={this.addItemToList} />
             </div>
         )
     }

@@ -2,7 +2,7 @@ import React from 'react';
 
 const SubmitOrder = ({handleOrderSubmit}) => {
     return (
-        <button onClick={handleOrderSubmit}>Submit Order</button>
+        <button className='submit-order' onClick={handleOrderSubmit}>Submit Order</button>
     )
 }
 
