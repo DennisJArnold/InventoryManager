@@ -36,6 +36,18 @@ app.post('/items', (req, res) => {
     })
 })
 
+app.post('/orders', (req, res) => {
+    queries.insertOrder(req.body, (err, results) => {
+        if (err) {
+            console.log('Error with POST request', err);
+            res.status(400).send(err);
+        } else {
+            console.log('POST request recieved!')
+            res.send(results);
+        }
+    })
+})
+
 app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}`)
 })

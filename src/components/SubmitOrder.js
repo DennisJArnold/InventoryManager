@@ -1,8 +1,8 @@
 import React from 'react';
 
-const SubmitOrder = ({handleOrderSubmit}) => {
+const SubmitOrder = (props) => {
     return (
-        <button className='submit-order' onClick={handleOrderSubmit}>Submit Order</button>
+        <button className='submit-order' onClick={props.handleOrderSubmit}>Submit Order</button>
     )
 }
 

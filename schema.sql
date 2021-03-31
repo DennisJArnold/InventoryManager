@@ -26,7 +26,8 @@ ALTER TABLE orders ADD CONSTRAINT orders_pkey PRIMARY KEY (id);
 CREATE TABLE items_orders (
  id BIGSERIAL,
  item_id INTEGER,
- order_id INTEGER
+ order_id INTEGER,
+ quantity INTEGER
 );
 
 

@@ -17,6 +17,8 @@ class App extends React.Component {
         this.addItemToList = this.addItemToList.bind(this);
         this.handleOrderSubmit = this.handleOrderSubmit.bind(this);
         this.addItemToCart = this.addItemToCart.bind(this);
+        this.removeItem = this.removeItem.bind(this);
+        this.handleOrderSubmit = this.handleOrderSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -39,13 +41,21 @@ class App extends React.Component {
     }
 
     addItemToCart(item) {
-        let container = this.state.cart;
-        if (!container[item.id]) {
-            container[item.id] = item;
+        if (this.state.cart[item.id]) {
+            this.setState(prevState => ({
+                cart: {
+                    ...prevState.cart,
+                    [item.id]: {...this.state.cart[item.id], quantity: this.state.cart[item.id].quantity += item.quantity}
+                }
+            }));
         } else {
-            container[item.id].quantity+= item.quantity;
+            this.setState(prevState => ({
+                cart: {
+                    ...prevState.cart,
+                    [item.id]: item
+                }
+            }))
         }
-        this.setState({cart: container});
     }
 
     addItemToList(item) {
@@ -60,18 +70,41 @@ class App extends React.Component {
         })
     }
 
+    removeItem(id) {
+        this.setState(prevState => {
+            delete prevState.cart[id];
+            return {
+              cart: {
+                ...prevState.cart,
+              }
+            }
+        })
+    }
+
     handleOrderSubmit() {
-        // submits order!
+        axios.post('http://localhost:3001/orders', this.state.cart)
+        .then((res) => {
+            console.log(res.data);
+        }, (err) => {
+            console.log(err);
+        })
+        .then(() => {
+            this.setState({cart: {}});
+        })
     }
 
     render() {
         return (
             <div className='container'>
               <h1 className='header'>Inventory Manager</h1>
-              <OrderDisplay cart={this.state.cart} />
-              <OrderInfo cart={this.state.cart} />
-              <SubmitOrder handleOrderSubmit={this.handleOrderSubmit} />
-              <ItemTable items={this.state.items} addItemToCart={this.addItemToCart} />
+              <div className='order-container'>
+                <OrderDisplay cart={this.state.cart} removeItem={this.removeItem}/>
+                <OrderInfo cart={this.state.cart} />
+                <SubmitOrder handleOrderSubmit={this.handleOrderSubmit} />
+              </div>
+              <div className='table-container'>
+                <ItemTable items={this.state.items} addItemToCart={this.addItemToCart} itemsInCart={this.state.cart} />
+              </div>
               <AddNewItem addItemToList={this.addItemToList} />
             </div>
         )

@@ -33,7 +33,33 @@ const insertItem = (item, cb) => {
     })
 }
 
+const insertOrder = (order, cb) => {
+    let date = JSON.stringify(new Date());
+    let total = 0;
+    Object.keys(order).map((id) => {
+        total += order[id].cost * order[id].quantity;
+    })
+    client.query(`INSERT INTO orders (date, total) VALUES ('${date}', '${total}') RETURNING id`, (err, results) => {
+        if (err){
+            cb(err);
+        } else {
+            let orderId = results.rows[0].id;
+            Object.keys(order).map((id) => {
+                console.log(id, orderId, order[id].quantity);
+                client.query(`INSERT INTO items_orders (item_id, order_id, quantity) VALUES (${id}, ${orderId}, ${order[id].quantity})`, (err, results) => {
+                    if (err) {
+                        cb(err)
+                    } else {
+                        cb(null, results)
+                    }
+                })
+            })
+        }
+    })
+}
+
 module.exports = {
     getAllItems,
-    insertItem
+    insertItem,
+    insertOrder
 }

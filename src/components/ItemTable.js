@@ -24,8 +24,9 @@ class ItemTable extends React.Component {
                   <div className='table-header'>Add to Order</div>
               </div>
               {this.props.items.map((item) => {
+                  var quantityInCart = this.props.itemsInCart[item.id] ? this.props.itemsInCart[item.id].quantity : 0;
                   return(
-                    <ItemRow item={item} key={item.id} addItemToCart={this.props.addItemToCart}/>
+                    <ItemRow item={item} key={item.id} addItemToCart={this.props.addItemToCart} quantityInCart={quantityInCart}/>
                   )
               })}
             </div>
