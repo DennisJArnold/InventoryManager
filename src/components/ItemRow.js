@@ -15,7 +15,7 @@ class ItemRow extends React.Component {
     }
 
     handleChange(e) {
-        this.setState({[e.target.name]: parseFloat(e.target.value)})
+        this.setState({[e.target.name]: parseFloat(e.target.value) || 0} )
     }
 
     handleSubmit(e) {
@@ -24,6 +24,7 @@ class ItemRow extends React.Component {
         item.quantity = parseFloat(this.state.quantity);
         if (item.quantity > 0) {
             this.props.addItemToCart(item);
+            this.setState({quantity: 0})
         }
     }
 
@@ -33,14 +34,14 @@ class ItemRow extends React.Component {
         return (
         <div className='table-row' key={this.props.item.id}>
             <div className='item-name cell'>{this.props.item.item_name}</div>
-            <div className='on-hand-unit cell'>
-                <input type='number' onChange={this.handleChange} name='ohUnits' value={this.state.ohUnits} className='num-input'></input>
+            <div className='on-hand-unit cell' >
+                <input type='number' onChange={this.handleChange} name='ohUnits' value={this.state.ohUnits} className='num-input'style={ohTotal === 0 ? {backgroundColor: '#Ffbbbb'} : {backgroundColor: 'white'}}></input>
             </div>
             <div className='on-hand-case cell'>
-                <input type='number' onChange={this.handleChange} name='ohCases' value={this.state.ohCases} className='num-input'></input>
+                <input type='number' onChange={this.handleChange} name='ohCases' value={this.state.ohCases} className='num-input' style={ohTotal === 0 ? {backgroundColor: '#Ffbbbb'} : {backgroundColor: 'white'}}></input>
             </div>
             <div className='par cell'>{this.props.item.par}</div>
-            <div className='suggested cell' style={ohTotal + parseFloat(this.props.quantityInCart * this.props.item.size) >= this.props.item.par ? {border: '2px solid green'}: {border: '2px solid red'}} >
+            <div className='suggested cell' style={ohTotal + parseFloat(this.props.quantityInCart * this.props.item.size) >= this.props.item.par ? {backgroundColor: '#C3f9b7'}: {backgroundColor: '#Ffbbbb'}} >
                 {suggested}</div>
             <div className='price cell'>${parseFloat(this.props.item.cost).toFixed(2)}</div>
             <div className='size cell'>{this.props.item.size}</div>

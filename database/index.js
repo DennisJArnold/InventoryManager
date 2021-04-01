@@ -45,15 +45,13 @@ const insertOrder = (order, cb) => {
         } else {
             let orderId = results.rows[0].id;
             Object.keys(order).map((id) => {
-                console.log(id, orderId, order[id].quantity);
                 client.query(`INSERT INTO items_orders (item_id, order_id, quantity) VALUES (${id}, ${orderId}, ${order[id].quantity})`, (err, results) => {
                     if (err) {
                         cb(err)
-                    } else {
-                        cb(null, results)
-                    }
+                    } 
                 })
             })
+          cb(null, results)
         }
     })
 }

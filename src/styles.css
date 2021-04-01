@@ -3,7 +3,7 @@
     height: 100%;
     display: grid;
     grid-template-columns: 2% 20% 5% auto 2%;
-    grid-template-rows: 2% 5% 75% 2% 5% 2%;
+    grid-template-rows: 2% 5% 60% 2% 5%;
 }
 
 .header {
