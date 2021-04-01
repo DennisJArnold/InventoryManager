@@ -26,7 +26,7 @@ class App extends React.Component {
     }
 
     getAllItemData() {
-        axios.get('http://localhost:3001/items')
+        axios.get('http://localhost:8080/items')
         .then((res) => {
             console.log(res.data);
             this.setState({ items: res.data });
@@ -59,7 +59,7 @@ class App extends React.Component {
     }
 
     addItemToList(item) {
-        axios.post('http://localhost:3001/items', item)
+        axios.post('http://localhost:8080/items', item)
         .then((res) => {
             console.log(res.data);
         }, (err) => {
@@ -82,7 +82,7 @@ class App extends React.Component {
     }
 
     handleOrderSubmit() {
-        axios.post('http://localhost:3001/orders', this.state.cart)
+        axios.post('http://localhost:8080/orders', this.state.cart)
         .then((res) => {
             console.log(res.data);
         }, (err) => {
